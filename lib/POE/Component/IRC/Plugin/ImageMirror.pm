@@ -11,7 +11,7 @@ use POE::Component::IRC::Plugin qw(PCI_EAT_NONE);
 use POE::Component::IRC::Plugin::URI::Find;
 use POE::Wheel::Run;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 my $uri_title_code = <<'END';
 use strict;
@@ -174,7 +174,7 @@ sub _mirror_uri {
     my $content = $res->content;
     if (my ($uri) = $content =~ m{<a.*? href="(.*?)"[^>]+>Direct}) {
         $uri =~ s/' .*$//;
-        $self->{irc}->yield(privmsg => $where, "$title - $uri");
+        $self->{irc}->yield($self->{Method}, $where, "$title - $uri");
     }
     
     $kernel->refcount_decrement($sender, __PACKAGE__);
