@@ -11,7 +11,7 @@ use POE::Component::IRC::Plugin qw(PCI_EAT_NONE);
 use POE::Component::IRC::Plugin::URI::Find;
 use POE::Wheel::Run;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $uri_title_code = <<'END';
 use strict;
@@ -89,9 +89,17 @@ sub S_urifind_uri {
     my $where = ${ $_[1] };
     my $uri   = ${ $_[2] };
 
+    if (ref $self->{Channels} eq 'ARRAY') {
+        my $ok;
+        for my $chan (@{ $self->{Channels} }) {
+            $ok = 1 if $chan eq $where;
+        }
+        return PCI_EAT_NONE if !$ok;
+    }
+
     my $matched;
     for my $match (@{ $self->{URI_match} }) {
-        $matched = 1;
+        $matched = 1 if $uri =~ $match;
         last if $matched;
     }
     return PCI_EAT_NONE if !$matched;
@@ -214,6 +222,9 @@ short description of the image along with the new URL.
 
 Takes the following optional arguments:
 
+B<'Channels'>, an array reference of channels names. If you don't supply
+this, images will be mirrored in all channels.
+
 B<'URI_match'>, an array reference of regex objects. Any url found must match
 at least one of these regexes if it is to be uploaded. If you don't supply
 this parameter, a default regex of C<qr/(?i:jpe?g|gif|png)$/> is used.
@@ -240,5 +251,12 @@ Hinrik E<Ouml>rn SigurE<eth>sson, hinrik.sig@gmail.com
 
 Imageshack-related code provided by E<AElig>var ArnfjE<ouml>rE<eth>
 Bjarmason <avar@cpan.org>.
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2010 Hinrik E<Ouml>rn SigurE<eth>sson
+
+This program is free software, you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
