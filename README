@@ -15,8 +15,15 @@ SYNOPSIS
 DESCRIPTION
     POE::Component::IRC::Plugin::ImageMirror is a POE::Component::IRC
     plugin. It looks for image URLs in the channel log and uploads the
-    images to Imageshack, then prints a short description of the image along
-    with the new URL.
+    images to Imageshack and Imgur, then prints a short description of the
+    image along with the new URLs.
+
+     <avar> http://images.4chan.org/b/src/1267339589262.gif
+     -MyBot:#avar- gif (318 x 241) - http://imgur.com/RWcSE.gif - http://img535.imageshack.us/img535/9685/1267339589262.gif
+
+    This plugin makes use of POE::Component::IRC::Plugin::URI::Find. An
+    instance will be added to the plugin pipeline if it is not already
+    present.
 
 METHODS
   "new"
@@ -40,8 +47,15 @@ METHODS
          qr{(?<=^)https(?=://(?:www\.)?7chan\.org)} => 'http',
      ]
 
+    'URI_title', whether or not to include a title produced by URI::Title.
+    Defaults to true.
+
     'Method', how you want messages to be delivered. Valid options are
     'notice' (the default) and 'privmsg'.
+
+    'Eat', when enabled, will prevent further processing of
+    "irc_urifind_uri" events by other plugins for URIs which this plugin
+    mirrors. False by default.
 
     Returns a plugin object suitable for feeding to POE::Component::IRC's
     "plugin_add" method.
