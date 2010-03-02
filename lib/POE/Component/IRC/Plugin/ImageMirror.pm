@@ -10,16 +10,9 @@ use POE;
 use POE::Component::IRC::Plugin qw(PCI_EAT_NONE PCI_EAT_PLUGIN);
 use POE::Component::IRC::Plugin::URI::Find;
 use POE::Wheel::Run;
-
-our $VERSION = '0.05';
-
-my $uri_title_code = <<'END';
-use strict;
-use warnings;
 use URI::Title qw(title);
-$| = 1;
-print title($ARGV[0]), "\n";
-END
+
+our $VERSION = '0.06';
 
 sub new {
     my ($package, %args) = @_;
@@ -153,9 +146,10 @@ sub _uri_title {
 
     my @inc = map { +'-I' => $_ } @INC;
     my $wheel = POE::Wheel::Run->new(
-        Program     => [$^X, @inc, '-e', $uri_title_code, $uri],
+        Program     => sub { title($uri) },
         StdoutEvent => '_child_stdout',
         StderrEvent => '_child_stderr',
+        ($^O eq 'MSWin32' ? (CloseOnCall => 0) : (CloseOnCall => 1)),
     );
 
     $self->{req}{$uri} = {
@@ -185,7 +179,7 @@ sub _child_stdout {
     my ($kernel, $self, $title, $id) = @_[KERNEL, OBJECT, ARG0, ARG1];
 
     my $uri;
-    for my $key (%{ $self->{req} }) {
+    for my $key (keys %{ $self->{req} }) {
         if ($self->{req}{$key}{wheel}->ID eq $id) {
             $uri = $key;
             last;
@@ -193,7 +187,6 @@ sub _child_stdout {
     }
 
     $self->{req}{$uri}{title} = $title;
-    delete $self->{req}{$uri}{wheel};
 
     $kernel->yield(_mirror_imgur => $uri);
     $kernel->yield(_mirror_imgshack => $uri);
@@ -201,7 +194,7 @@ sub _child_stdout {
 }
 
 sub _mirror_imgur {
-    my ($kernel, $self, $uri) = @_[KERNEL, OBJECT, ARG0];
+    my ($kernel, $self, $orig_uri) = @_[KERNEL, OBJECT, ARG0];
 
     my $ua = LWP::UserAgent::POE->new(
         cookie_jar            => HTTP::Cookies->new,
@@ -219,7 +212,7 @@ sub _mirror_imgur {
         );
     }
 
-    my $res = $ua->get("http://imgur.com/api/upload/?url=$uri");
+    my $res = $ua->get("http://imgur.com/api/upload/?url=$orig_uri");
 
     my $imgur;
     if ($res->is_success) {
@@ -228,17 +221,17 @@ sub _mirror_imgur {
         }
     }
 
-    $self->{req}{$uri}{imgur_uri} = $imgur // '';
+    $self->{req}{$orig_uri}{imgur_uri} = defined $imgur ? $imgur : '';
 
     # post the url if we've got both now
-    if (defined $self->{req}{$uri}{imgshack_uri}) {
-        $kernel->yield(_post_uri => $uri);
+    if (defined $self->{req}{$orig_uri}{imgshack_uri}) {
+        $kernel->yield(_post_uri => $orig_uri);
     }
     return;
 }
 
 sub _mirror_imgshack {
-    my ($kernel, $self, $uri) = @_[KERNEL, OBJECT, ARG0];
+    my ($kernel, $self, $orig_uri) = @_[KERNEL, OBJECT, ARG0];
 
     my $ua = LWP::UserAgent::POE->new(
         cookie_jar            => HTTP::Cookies->new,
@@ -254,7 +247,7 @@ sub _mirror_imgshack {
          Content_Type => 'multipart/form-data',
          Content      => [
             uploadtype    => 'on',
-            url           => $uri,
+            url           => $orig_uri,
             email         => '', 
             MAX_FILE_SIZE => 13145728,
             refer         => '', 
@@ -270,11 +263,11 @@ sub _mirror_imgshack {
         }
     }
 
-    $self->{req}{$uri}{imgshack_uri} = $imgshack // '';
+    $self->{req}{$orig_uri}{imgshack_uri} = defined $imgshack ? $imgshack : '';
 
     # post the url if we've got both now
-    if (defined $self->{req}{$uri}{imgur_uri}) {
-        $kernel->yield(_post_uri => $uri);
+    if (defined $self->{req}{$orig_uri}{imgur_uri}) {
+        $kernel->yield(_post_uri => $orig_uri);
     }
     return;
 }
@@ -322,7 +315,7 @@ the channel log and uploads the images to Imageshack and Imgur, then prints a
 short description of the image along with the new URLs.
 
  <avar> http://images.4chan.org/b/src/1267339589262.gif
- -MyBot:#avar- gif (318 x 241) - http://imgur.com/RWcSE.gif - http://img535.imageshack.us/img535/9685/1267339589262.gif
+ -MyBot:#channel- gif (318 x 241) - http://imgur.com/RWcSE.gif - http://img535.imageshack.us/img535/9685/1267339589262.gif
 
 This plugin makes use of
 L<POE::Component::IRC::Plugin::URI::Find|POE::Component::IRC::URI::Find>. An
@@ -354,8 +347,8 @@ Example:
 B<'URI_title'>, whether or not to include a title produced by
 L<URI::Title|URI::Title>. Defaults to true.
 
-B<'Imgur_user'>, an Imgur username. If provided, the images will uploaded to
-Imgur will be under this account rather than anonymously.
+B<'Imgur_user'>, an Imgur username. If provided, the images uploaded to Imgur
+will be under this account rather than anonymous.
 
 B<'Imgur_pass'>, an Imgur account password to go with B<'ImgurUser'>.
 

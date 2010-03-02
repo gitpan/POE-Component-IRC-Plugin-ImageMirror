@@ -35,4 +35,4 @@ resources:
   homepage: http://search.cpan.org/dist/POE-Component-IRC-Plugin-ImageMirror
   license: http://dev.perl.org/licenses/
   repository: git://github.com/hinrik/poe-component-irc-plugin-imagemirror.git
-version: 0.05
+version: 0.06

@@ -19,7 +19,7 @@ DESCRIPTION
     image along with the new URLs.
 
      <avar> http://images.4chan.org/b/src/1267339589262.gif
-     -MyBot:#avar- gif (318 x 241) - http://imgur.com/RWcSE.gif - http://img535.imageshack.us/img535/9685/1267339589262.gif
+     -MyBot:#channel- gif (318 x 241) - http://imgur.com/RWcSE.gif - http://img535.imageshack.us/img535/9685/1267339589262.gif
 
     This plugin makes use of POE::Component::IRC::Plugin::URI::Find. An
     instance will be added to the plugin pipeline if it is not already
@@ -50,8 +50,8 @@ METHODS
     'URI_title', whether or not to include a title produced by URI::Title.
     Defaults to true.
 
-    'Imgur_user', an Imgur username. If provided, the images will uploaded
-    to Imgur will be under this account rather than anonymously.
+    'Imgur_user', an Imgur username. If provided, the images uploaded to
+    Imgur will be under this account rather than anonymous.
 
     'Imgur_pass', an Imgur account password to go with 'ImgurUser'.
 
