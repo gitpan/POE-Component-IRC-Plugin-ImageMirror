@@ -23,7 +23,6 @@ requires:
   HTTP::Cookies: 0
   HTTP::Headers: 0
   LWP::UserAgent::POE: 0
-  List::MoreUtils: 0
   POE: 0
   POE::Component::IRC: 6.22
   POE::Component::IRC::Plugin::URI::Find: 0
@@ -35,4 +34,4 @@ resources:
   homepage: http://search.cpan.org/dist/POE-Component-IRC-Plugin-ImageMirror
   license: http://dev.perl.org/licenses/
   repository: git://github.com/hinrik/poe-component-irc-plugin-imagemirror.git
-version: 0.07
+version: 0.08
