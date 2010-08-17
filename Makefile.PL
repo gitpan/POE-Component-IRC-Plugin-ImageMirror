@@ -1,38 +1,58 @@
+
 use strict;
 use warnings;
-use inc::Module::Install;
 
-my $mi = '0.94';
-if ($inc::Module::Install::VERSION lt $mi) {
-    die "Your Module::Install is older than $mi, please upgrade it";
+
+
+use ExtUtils::MakeMaker 6.31;
+
+
+
+my %WriteMakefileArgs = (
+  'ABSTRACT' => 'A PoCo-IRC plugin which uploads select images to a mirror service',
+  'AUTHOR' => 'Hinrik Örn Sigurðsson <hinrik.sig@gmail.com>',
+  'BUILD_REQUIRES' => {},
+  'CONFIGURE_REQUIRES' => {
+    'ExtUtils::MakeMaker' => '6.31'
+  },
+  'DISTNAME' => 'POE-Component-IRC-Plugin-ImageMirror',
+  'EXE_FILES' => [],
+  'LICENSE' => 'perl',
+  'NAME' => 'POE::Component::IRC::Plugin::ImageMirror',
+  'PREREQ_PM' => {
+    'HTTP::Cookies' => '0',
+    'HTTP::Headers' => '0',
+    'LWP::UserAgent::POE' => '0',
+    'POE' => '0',
+    'POE::Component::IRC' => '6.22',
+    'POE::Component::IRC::Plugin::URI::Find' => '0',
+    'POE::Wheel::Run' => '0',
+    'URI::Title' => '0'
+  },
+  'VERSION' => '0.09',
+  'test' => {
+    'TESTS' => 't/*.t'
+  }
+);
+
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
 }
 
-my $dist = 'POE-Component-IRC-Plugin-ImageMirror';
-name           ($dist);
-author         ('Hinrik Örn Sigurðsson <hinrik.sig@gmail.com>');
-abstract_from  ('lib/POE/Component/IRC/Plugin/ImageMirror.pm');
-version_from   ('lib/POE/Component/IRC/Plugin/ImageMirror.pm');
-license        ('perl');
-homepage       ("http://search.cpan.org/dist/$dist");
-githubmeta     ();
-bugtracker     ("http://github.com/hinrik/\L$dist/issues");
-resources      (Ratings => "http://cpanratings.perl.org/d/$dist");
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
-requires       ('HTTP::Cookies'       => '0');
-requires       ('HTTP::Headers'       => '0');
-requires       ('LWP::UserAgent::POE' => '0');
-requires       ('POE'                 => '0');
-requires       ('POE::Wheel::Run'     => '0');
-requires       ('POE::Component::IRC' => '6.22');
-requires       ('POE::Component::IRC::Plugin::URI::Find' => '0');
-requires       ('URI::Title'          => '0');
+WriteMakefile(%WriteMakefileArgs);
 
-test_requires  ('Test::More' => '0');
-tests_recursive();
 
-author_requires('Perl::Critic'        => '1.098');
-author_requires('Test::Perl::Critic'  => '0');
-author_requires('Test::Pod'           => '1.41');
-author_requires('Test::Pod::Coverage' => '1.08');
 
-WriteAll();

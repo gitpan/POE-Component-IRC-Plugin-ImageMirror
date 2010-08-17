@@ -1,7 +1,13 @@
 package POE::Component::IRC::Plugin::ImageMirror;
+BEGIN {
+  $POE::Component::IRC::Plugin::ImageMirror::AUTHORITY = 'cpan:HINRIK';
+}
+BEGIN {
+  $POE::Component::IRC::Plugin::ImageMirror::VERSION = '0.09';
+}
 
 use strict;
-use warnings;
+use warnings FATAL => 'all';
 use HTTP::Cookies;
 use HTTP::Headers;
 use LWP::UserAgent::POE;
@@ -10,8 +16,6 @@ use POE::Component::IRC::Plugin qw(PCI_EAT_NONE PCI_EAT_PLUGIN);
 use POE::Component::IRC::Plugin::URI::Find;
 use POE::Wheel::Run;
 use URI::Title qw(title);
-
-our $VERSION = '0.08';
 
 sub new {
     my ($package, %args) = @_;
@@ -313,8 +317,7 @@ sub _post_uri {
 
 =head1 NAME
 
-POE::Component::IRC::Plugin::ImageMirror - A PoCo-IRC plugin which uploads
-select images to a mirror service
+POE::Component::IRC::Plugin::ImageMirror - A PoCo-IRC plugin which uploads select images to a mirror service
 
 =head1 SYNOPSIS
 
