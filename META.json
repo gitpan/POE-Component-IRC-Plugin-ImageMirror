@@ -4,7 +4,7 @@
       "Hinrik \u00c3\u0096rn Sigur\u00c3\u00b0sson <hinrik.sig@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.101612, CPAN::Meta::Converter version 2.101670",
+   "generated_by" : "Dist::Zilla version 4.102340, CPAN::Meta::Converter version 2.102400",
    "license" : [
       "perl_5"
    ],
@@ -30,11 +30,10 @@
          "requires" : {
             "HTTP::Cookies" : 0,
             "HTTP::Headers" : 0,
-            "LWP::UserAgent::POE" : 0,
             "POE" : 0,
             "POE::Component::IRC" : "6.22",
             "POE::Component::IRC::Plugin::URI::Find" : 0,
-            "POE::Wheel::Run" : 0,
+            "POE::Quickie" : "0.11",
             "URI::Title" : 0
          }
       }
@@ -55,7 +54,7 @@
          "web" : "http://github.com/hinrik/poe-component-irc-plugin-imagemirror"
       }
    },
-   "version" : "0.09",
+   "version" : "0.10",
    "x_authority" : "cpan:HINRIK"
 }
 

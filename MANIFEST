@@ -6,7 +6,6 @@ META.json
 META.yml
 Makefile.PL
 README
-README.pod
 dist.ini
 lib/POE/Component/IRC/Plugin/ImageMirror.pm
 t/01_compile.t

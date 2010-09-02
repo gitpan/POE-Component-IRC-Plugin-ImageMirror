@@ -6,7 +6,7 @@ build_requires: {}
 configure_requires:
   ExtUtils::MakeMaker: 6.31
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.101612, CPAN::Meta::Converter version 2.101670'
+generated_by: 'Dist::Zilla version 4.102340, CPAN::Meta::Converter version 2.102400'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -20,16 +20,15 @@ no_index:
 requires:
   HTTP::Cookies: 0
   HTTP::Headers: 0
-  LWP::UserAgent::POE: 0
   POE: 0
   POE::Component::IRC: 6.22
   POE::Component::IRC::Plugin::URI::Find: 0
-  POE::Wheel::Run: 0
+  POE::Quickie: 0.11
   URI::Title: 0
 resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=POE-Component-IRC-Plugin-ImageMirror
   homepage: http://search.cpan.org/dist/POE-Component-IRC-Plugin-ImageMirror/
   license: http://dev.perl.org/licenses/
   repository: git://github.com/hinrik/poe-component-irc-plugin-imagemirror.git
-version: 0.09
+version: 0.10
 x_authority: cpan:HINRIK

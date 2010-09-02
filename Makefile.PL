@@ -22,14 +22,13 @@ my %WriteMakefileArgs = (
   'PREREQ_PM' => {
     'HTTP::Cookies' => '0',
     'HTTP::Headers' => '0',
-    'LWP::UserAgent::POE' => '0',
     'POE' => '0',
     'POE::Component::IRC' => '6.22',
     'POE::Component::IRC::Plugin::URI::Find' => '0',
-    'POE::Wheel::Run' => '0',
+    'POE::Quickie' => '0.11',
     'URI::Title' => '0'
   },
-  'VERSION' => '0.09',
+  'VERSION' => '0.10',
   'test' => {
     'TESTS' => 't/*.t'
   }
