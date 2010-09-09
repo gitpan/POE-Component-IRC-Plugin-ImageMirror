@@ -3,6 +3,13 @@ NAME
     uploads select images to a mirror service
 
 SYNOPSIS
+    To quickly get an IRC bot with this plugin up and running, you can use
+    App::Pocoirc:
+
+     $ pocoirc -s irc.perl.org -j '#bots' -p ImageMirror
+
+    Or use it in your code:
+
      use POE::Component::IRC::Plugin::ImageMirror;
 
      # mirror all images from 4chan.org
