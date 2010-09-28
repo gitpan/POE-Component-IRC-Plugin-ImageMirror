@@ -28,7 +28,7 @@ my %WriteMakefileArgs = (
     'POE::Quickie' => '0.11',
     'URI::Title' => '0'
   },
-  'VERSION' => '0.12',
+  'VERSION' => '0.13',
   'test' => {
     'TESTS' => 't/*.t'
   }

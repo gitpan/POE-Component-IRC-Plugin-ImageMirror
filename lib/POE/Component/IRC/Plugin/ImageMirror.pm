@@ -3,7 +3,7 @@ BEGIN {
   $POE::Component::IRC::Plugin::ImageMirror::AUTHORITY = 'cpan:HINRIK';
 }
 BEGIN {
-  $POE::Component::IRC::Plugin::ImageMirror::VERSION = '0.12';
+  $POE::Component::IRC::Plugin::ImageMirror::VERSION = '0.13';
 }
 
 use strict;
@@ -307,7 +307,7 @@ POE::Component::IRC::Plugin::ImageMirror - A PoCo-IRC plugin which uploads selec
 To quickly get an IRC bot with this plugin up and running, you can use
 L<App::Pocoirc|App::Pocoirc>:
 
- $ pocoirc -s irc.perl.org -j '#bots' -p ImageMirror
+ $ pocoirc -s irc.perl.org -j '#bots' -a ImageMirror
 
 Or use it in your code:
 
