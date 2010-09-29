@@ -4,7 +4,7 @@
       "Hinrik \u00c3\u0096rn Sigur\u00c3\u00b0sson <hinrik.sig@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.101612, CPAN::Meta::Converter version 2.101670",
+   "generated_by" : "Dist::Zilla version 4.102341, CPAN::Meta::Converter version 2.101670",
    "license" : [
       "perl_5"
    ],
@@ -54,7 +54,7 @@
          "web" : "http://github.com/hinrik/poe-component-irc-plugin-imagemirror"
       }
    },
-   "version" : "0.13",
+   "version" : "0.14",
    "x_authority" : "cpan:HINRIK"
 }
 
