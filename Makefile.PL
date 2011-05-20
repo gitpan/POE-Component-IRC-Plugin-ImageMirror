@@ -4,7 +4,7 @@ use warnings;
 
 
 
-use ExtUtils::MakeMaker 6.31;
+use ExtUtils::MakeMaker 6.30;
 
 
 
@@ -13,7 +13,7 @@ my %WriteMakefileArgs = (
   'AUTHOR' => 'Hinrik Örn Sigurðsson <hinrik.sig@gmail.com>',
   'BUILD_REQUIRES' => {},
   'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.31'
+    'ExtUtils::MakeMaker' => '6.30'
   },
   'DISTNAME' => 'POE-Component-IRC-Plugin-ImageMirror',
   'EXE_FILES' => [],
@@ -22,13 +22,15 @@ my %WriteMakefileArgs = (
   'PREREQ_PM' => {
     'HTTP::Cookies' => '0',
     'HTTP::Headers' => '0',
+    'Image::ImageShack' => '0',
     'POE' => '0',
     'POE::Component::IRC' => '6.22',
     'POE::Component::IRC::Plugin::URI::Find' => '0',
     'POE::Quickie' => '0.11',
+    'Try::Tiny' => '0',
     'URI::Title' => '0'
   },
-  'VERSION' => '0.14',
+  'VERSION' => '0.15',
   'test' => {
     'TESTS' => 't/*.t'
   }
